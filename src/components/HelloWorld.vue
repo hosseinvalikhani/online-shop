@@ -46,11 +46,20 @@ let mobileInfo = ref<info[]>([
 </script>
 
 <template>
-  <ul class="grid grid-cols-1 bg-red-100">
-    <li v-for="(item, index) in mobileInfo" :key="index">
-      {{ item.url }}
-      <img :src="item.url" alt="" class="w-40 h-40" />
+  <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <li
+      v-for="(item, index) in mobileInfo"
+      :key="index"
+      class="flex flex-col border-black border-2"
+    >
+      <img :src="item.url" alt="" class="rounded-md" />
+      <button
+        class="mx-2 py-2 bg-blue-200 hover:bg-green-400 active:bg-blue-700"
+      >
+        افزودن به سبد خرید
+      </button>
       <p>{{ item.name }}</p>
+      <p>{{ item.description }}</p>
     </li>
   </ul>
 </template>
