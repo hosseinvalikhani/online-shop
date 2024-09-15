@@ -1,12 +1,20 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 
-interface info {
-  url: string;
-  name: string;
-  description: string;
-}
-let mobileInfo = ref<info[]>([
+const basket = ref([
+  {
+    url: "/src/assets/img/iphone13pro.webp",
+    name: "iPhone 13 Pro",
+    item: 0,
+  },
+  {
+    url: "/src/assets/img/honorX7B.webp",
+    name: "Honor X7B",
+    item: 2,
+  },
+]);
+
+const mobileInfo = ref([
   {
     url: "/src/assets/img/iphone13pro.webp",
     name: "iPhone 13 Pro",
@@ -43,6 +51,21 @@ let mobileInfo = ref<info[]>([
       "Samsung's top-tier model with a 108MP camera and 100x Space Zoom.",
   },
 ]);
+
+const isMobileInBasket = (index) => {
+  // Get the name of the mobile at the specified index
+  const mobileName = mobileInfo.value[index]?.name;
+
+  // Check if the basket includes this mobile name
+  return basket.value.some((basketItem) => basketItem.name === mobileName);
+};
+
+function addToBasket(index) {
+  console.log("is", isMobileInBasket(index));
+  // console.log("this", index);
+  // console.log(mobileInfo.value[index].name);
+  // console.log(basket.value.include(mobileInfo.value[index]));
+}
 </script>
 
 <template>
@@ -54,7 +77,8 @@ let mobileInfo = ref<info[]>([
     >
       <img :src="item.url" alt="" class="rounded-md" />
       <button
-        class="mx-2 py-2 bg-blue-200 hover:bg-green-400 active:bg-blue-700"
+        class="mx-2 py-2 bg-blue-200 active:bg-blue-700"
+        @click="addToBasket(index)"
       >
         افزودن به سبد خرید
       </button>
