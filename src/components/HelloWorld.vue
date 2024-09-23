@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { ref } from "vue";
 
 const basket = ref([]);
@@ -89,24 +89,117 @@ function addToBasket(index) {
 // function addToBasket(index) {
 //   console.log("is", isMobileInBasket(index));
 // }
+</script> -->
+<script setup>
+import { ref } from "vue";
+import cardComponent from "./cardComponent.vue";
+const basket = ref([]);
+
+const mobileInfo = ref([
+  {
+    url: "/src/assets/img/iphone13pro.webp",
+    name: "iPhone 13 Pro",
+    description:
+      "Apple's premium phone with A15 Bionic chip and advanced camera features.",
+    supply: 10,
+    id: 11,
+  },
+  {
+    url: "/src/assets/img/honorX7B.webp",
+    name: "Honor X7B",
+    description:
+      "Affordable device with a large display and long battery life.",
+    supply: 10,
+    id: 12,
+  },
+  {
+    url: "/src/assets/img/honorX9A.webp",
+    name: "Honor X9A",
+    description: "Mid-range phone with curved OLED display and fast charging.",
+    supply: 10,
+    id: 13,
+  },
+  {
+    url: "/src/assets/img/honorX9B.webp",
+    name: "Honor X9B",
+    description:
+      "Stylish design with high durability and powerful performance.",
+    supply: 10,
+    id: 14,
+  },
+  {
+    url: "/src/assets/img/honor90.webp",
+    name: "Honor 90",
+    description:
+      "Latest flagship phone with a 200MP camera and AI-enhanced photography.",
+    supply: 10,
+    id: 15,
+  },
+  {
+    url: "/src/assets/img/s21ultra.webp",
+    name: "Samsung Galaxy S21 Ultra",
+    description:
+      "Samsung's top-tier model with a 108MP camera and 100x Space Zoom.",
+    supply: 10,
+    id: 16,
+  },
+]);
+function addToBasket(number, id) {
+  const mobile = mobileInfo.value.find((item) => item.id === id);
+
+  if (!mobile || mobile.supply <= 0) {
+    console.log("Item not available or out of stock");
+    return;
+  }
+
+  // Find the item in the basket by its name
+  const existingItem = basket.value.find(
+    (basketItem) => basketItem.name === mobile.name
+  );
+
+  // Decrease the mobile supply
+
+  if (existingItem && mobile.supply > 0) {
+    // If the item already exists, increment the quantity
+    existingItem.quantity += number;
+    mobile.supply -= number;
+  } else {
+    // If the item doesn't exist in the basket, add it with a quantity of 1
+    basket.value.push({
+      url: mobile.url,
+      name: mobile.name,
+      quantity: 1,
+    });
+    mobile.supply -= number;
+  }
+  console.log("mobilr", mobile);
+
+  console.log(basket.value); // Log the updated basket
+}
+
+// function addToBasket(number, index) {
+//   console.log("number:", number, "index:", index);
+// }
 </script>
 
 <template>
   <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-    <li
+    <!-- <li
       v-for="(item, index) in mobileInfo"
       :key="index"
       class="flex flex-col border-black border-2"
+    ></li> -->
+    <li
+      v-for="(item, index) in mobileInfo"
+      :key="index"
+      class="flex flex-col items-center justify-center border-black border-2"
     >
-      <img :src="item.url" alt="" class="rounded-md" />
-      <button
-        class="mx-2 py-2 bg-blue-200 active:bg-blue-700"
-        @click="addToBasket(index)"
-      >
-        افزودن به سبد خرید
-      </button>
-      <p>{{ item.name }}</p>
-      <p>{{ item.description }}</p>
+      <cardComponent
+        :item="item"
+        :basket="basket"
+        :index="index"
+        @add-item-to-basket="addToBasket"
+      ></cardComponent>
     </li>
   </ul>
 </template>
