@@ -167,12 +167,28 @@ function addToBasket(number, id) {
       url: mobile.url,
       name: mobile.name,
       quantity: number,
+      id: mobile.id,
     });
     mobile.supply -= number;
   }
   console.log("mobile", mobile);
 
   console.log(basket.value); // Log the updated basket
+}
+function updateBasket(quantity, id) {
+  console.log("quentity:", quantity, "id:", id);
+  const mobile = mobileInfo.value.find((item) => item.id === id);
+  const basketItem = basket.value.find(
+    (basketItem) => basketItem.id === mobile.id
+  );
+  basketItem.quantity = quantity;
+}
+
+function showBasket() {
+  if (basket.value.length === 0) return;
+  const basketComponent = document.querySelector(".basket");
+  basketComponent.classList.toggle("hidden");
+  basketComponent.classList.toggle("block");
 }
 </script>
 
@@ -183,20 +199,26 @@ function addToBasket(number, id) {
       <li><a href="#">Contact us</a></li>
     </ul>
     <ul class="relative">
-      <li class="w-12 h-12"><img src="./../assets/img/basket.png" alt="" /></li>
+      <li class="w-12 h-12">
+        <button @click="showBasket">
+          <img src="./../assets/img/basket.png" alt="" />
+        </button>
+      </li>
     </ul>
   </nav>
-  <div class="absolute right-8 bg-slate-50">
-    <ul class="grid grid-cols-1 gap-4">
+  <div
+    class="basket hidden absolute right-8 bg-slate-50 z-10 max-h-[300px] overflow-auto"
+  >
+    <ul class="grid grid-cols-1 gap-4 p-4">
       <li
         v-for="(item, index) in basket"
         :key="index"
-        class="flex items-center justify-center"
+        class="flex items-center justify-between px-2"
       >
         <BasketComponent
           :item="item"
-          :supply="mobileInfo"
-          class="flex items-center justify-between"
+          :products="mobileInfo"
+          @update-quantity="updateBasket"
         ></BasketComponent>
       </li>
     </ul>
@@ -210,7 +232,7 @@ function addToBasket(number, id) {
     <li
       v-for="(item, index) in mobileInfo"
       :key="index"
-      class="flex flex-col items-center justify-center border-black border-2"
+      class="flex flex-col items-center justify-center border-black border-2 z-0"
     >
       <cardComponent
         :item="item"

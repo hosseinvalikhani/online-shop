@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 
-const props = defineProps(["item", "basket", "index"]);
+const props = defineProps(["item", "index"]);
 const emit = defineEmits(["addItemToBasket"]);
 const itemNumber = ref(1);
 
