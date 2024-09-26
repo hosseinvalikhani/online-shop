@@ -5,9 +5,9 @@ const props = defineProps(["item", "basket", "index"]);
 const emit = defineEmits(["addItemToBasket"]);
 const itemNumber = ref(1);
 
-// function resetNumber() {
-//   itemNumber.value = 1;
-// }
+function resetNumber() {
+  itemNumber.value = 1;
+}
 </script>
 
 <template>
@@ -34,9 +34,13 @@ const itemNumber = ref(1);
     </div>
     <button
       class="bg-green-300 w-[200px] h-[40px] rounded-md group"
-      @click="$emit('addItemToBasket', itemNumber, props.item?.id)"
+      @click="
+        $emit('addItemToBasket', itemNumber, props.item?.id);
+        resetNumber();
+      "
+      role="group"
     >
-      <p @click="resetNumber">add to basket</p>
+      add to basket
     </button>
   </div>
 </template>

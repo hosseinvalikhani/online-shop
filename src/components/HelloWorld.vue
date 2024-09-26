@@ -147,23 +147,20 @@ const mobileInfo = ref([
 function addToBasket(number, id) {
   const mobile = mobileInfo.value.find((item) => item.id === id);
 
-  if (!mobile || mobile.supply <= 0) {
+  if (!mobile || mobile.supply <= 0 || number > mobile.supply) {
     console.log("Item not available or out of stock");
-    return;
+    return 0;
   }
-
   // Find the item in the basket by its name
   const existingItem = basket.value.find(
     (basketItem) => basketItem.name === mobile.name
   );
-
   // Decrease the mobile supply
-
   if (existingItem && mobile.supply > 0) {
     // If the item already exists, increment the quantity
     existingItem.quantity += number;
     mobile.supply -= number;
-  } else {
+  } else if (!existingItem && mobile.supply > 0) {
     // If the item doesn't exist in the basket, add it with a quantity of 1
     basket.value.push({
       url: mobile.url,
@@ -172,17 +169,20 @@ function addToBasket(number, id) {
     });
     mobile.supply -= number;
   }
-  console.log("mobilr", mobile);
+  console.log("mobile", mobile);
 
   console.log(basket.value); // Log the updated basket
 }
-
-// function addToBasket(number, index) {
-//   console.log("number:", number, "index:", index);
-// }
 </script>
 
 <template>
+  <nav>
+    <ul>
+      <li>blog</li>
+      <li>Contact us</li>
+      <li></li>
+    </ul>
+  </nav>
   <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
     <!-- <li
       v-for="(item, index) in mobileInfo"
