@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
 const props = defineProps(["item", "basket", "index"]);
 const emit = defineEmits(["addItemToBasket"]);
@@ -16,19 +16,21 @@ function resetNumber() {
     <p>{{ props.item?.name }}</p>
     <p>{{ props.item?.description }}</p>
     <div class="flex items-center justify-center gap-4">
-      <button @click="itemNumber--">
+      <button @click="itemNumber--" :disabled="itemNumber <= 1">
         <img
           class="w-[20px] h-[20px] bg-white"
           src="./../assets/img/minus-circle-svgrepo-com.svg"
           alt=""
+          :class="itemNumber <= 1 ? 'opacity-45' : ''"
         />
       </button>
       <p>{{ itemNumber }}</p>
-      <button @click="itemNumber++">
+      <button @click="itemNumber++" :disabled="itemNumber >= item.supply">
         <img
           class="w-[20px] h-[20px] bg-white"
           src="./../assets/img/plus-svgrepo-com.svg"
           alt=""
+          :class="itemNumber >= item.supply ? 'opacity-45' : ''"
         />
       </button>
     </div>
