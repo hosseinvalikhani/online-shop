@@ -93,6 +93,7 @@ function addToBasket(index) {
 <script setup>
 import { ref } from "vue";
 import cardComponent from "./cardComponent.vue";
+import BasketComponent from "./basketComponent.vue";
 const basket = ref([]);
 
 const mobileInfo = ref([
@@ -165,7 +166,7 @@ function addToBasket(number, id) {
     basket.value.push({
       url: mobile.url,
       name: mobile.name,
-      quantity: 1,
+      quantity: number,
     });
     mobile.supply -= number;
   }
@@ -176,13 +177,22 @@ function addToBasket(number, id) {
 </script>
 
 <template>
-  <nav>
+  <nav class="flex items-center justify-between">
+    <ul class="flex justify-center items-center gap-6">
+      <li><a href="#">blog</a></li>
+      <li><a href="#">Contact us</a></li>
+    </ul>
     <ul>
-      <li>blog</li>
-      <li>Contact us</li>
-      <li></li>
+      <li class="w-12 h-12"><img src="./../assets/img/basket.png" alt="" /></li>
     </ul>
   </nav>
+  <div>
+    <BasketComponent
+      v-for="(item, index) in basket"
+      :key="index"
+      class="flex items-center justify-between"
+    ></BasketComponent>
+  </div>
   <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
     <!-- <li
       v-for="(item, index) in mobileInfo"
